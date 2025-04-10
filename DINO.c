@@ -42,7 +42,8 @@ void delay(int milliseconds) {
 }
 
 void clear_screen() {
-    for (int i = 0; i < 30; i++) {
+	int i;
+    for ( i = 0; i < 30; i++) {
         gotoxy(0, i);
         printf("                                                                                "); // 80+ spaces
     }
@@ -293,7 +294,8 @@ void Score() {
 
 void draw_environment() {
     textcolor(2);
-    for (int i = 5; i <= 80; i++) {
+    int i;
+    for ( i = 5; i <= 80; i++) {
         gotoxy(i, 24);
         printf("_");
     }
@@ -330,7 +332,8 @@ void game_over() {
 
 void jump_animation() {
     is_jumping = 1;
-    for (int j = 0; j < 4 && game_active; j++) {
+    int j, i;
+    for (j = 0; j < 4 && game_active; j++) {
         clear_screen();
         y -= 2;
         move_obstacle();
@@ -340,7 +343,7 @@ void jump_animation() {
         if (check_collision()) game_over();
         delay(speed - 20);
     }
-    for (int j = 0; j < 10 && game_active; j++) {
+    for (j = 0; j < 10 && game_active; j++) {
         clear_screen();
         move_obstacle();
         draw_environment();
@@ -349,7 +352,8 @@ void jump_animation() {
         if (check_collision()) game_over();
         delay(speed);
     }
-    for (int j = 0; j < 4 && game_active; j++) {
+    
+    for (j = 0; j < 4 && game_active; j++) {
         clear_screen();
         y += 2;
         move_obstacle();
@@ -459,4 +463,3 @@ int main() {
     main_menu();
     return 0;
 }
-
