@@ -5,7 +5,7 @@
 #include <windows.h>
 #include <time.h>
 #include <ctype.h>
-
+int dino_color = 15;
 typedef struct {
     char username[50];
     char password[50];
@@ -261,7 +261,7 @@ void save_high_score() {
 }
 
 void dinosour() {
-    textcolor(15);
+    textcolor(dino_color);
     gotoxy(2, y);     printf("           UUssUUU     ");
     gotoxy(2, y+1);   printf("           UUUUssss        ");
     gotoxy(2, y+2);   printf("           UUUUUs       ");
@@ -293,18 +293,19 @@ void Score() {
 }
 
 void draw_environment() {
-    textcolor(2);
+    textcolor(6); // changed from 2 (green) to 6 (yellow/brown)
     int i;
-    for ( i = 5; i <= 80; i++) {
+    for (i = 5; i <= 80; i++) {
         gotoxy(i, 24);
         printf("_");
     }
-    textcolor(10);
+    textcolor(10); // cactus remains green
     if (obstacle_x <= 80 && obstacle_x >= 0) {
         gotoxy(obstacle_x, 22); printf("|\\|");
         gotoxy(obstacle_x, 23); printf("| |");
     }
 }
+
 
 int check_collision() {
     return (obstacle_x <= 7 && obstacle_x >= 2 && y >= 13);
@@ -408,6 +409,31 @@ void game_loop() {
     game_active = 1;
 }
 
+void change_skin() {
+    int option;
+    system("cls");
+    printf("Choose a Dino Color:\n");
+    printf("1. White\n");
+    printf("2. Light Green\n");
+    printf("3. Light Red\n");
+    printf("4. Yellow\n");
+    printf("5. Cyan\n");
+    printf("Choice: ");
+    scanf("%d", &option);
+
+    switch(option) {
+        case 1: dino_color = 15; break; 
+        case 2: dino_color = 10; break; 
+        case 3: dino_color = 12; break; 
+        case 4: dino_color = 14; break; 
+        case 5: dino_color = 11; break; 
+        default: printf("Invalid choice. Using default.\n"); dino_color = 15;
+    }
+
+    printf("Dino skin updated!\n");
+    Sleep(1000);
+}
+
 void main_menu() {
     load_leaderboard();
     while (1) {
@@ -428,18 +454,20 @@ void main_menu() {
                         printf("===== WELCOME %s =====\n", current_user.username);
                         printf("High Score: %d\n", current_user.high_score);
                         printf("1. Play Game\n");
-                        printf("2. View Leaderboard\n");
-                        printf("3. Logout\n");
-                        printf("Choose an option: ");
+						printf("2. View Leaderboard\n");
+						printf("3. Logout\n");
+						printf("4. Change Skin\n"); 	
+						printf("Choose an option: ");
                         int game_choice;
-                        scanf("%d", &game_choice);
-                        if (game_choice == 1) {
-                            game_loop();
-                        } else if (game_choice == 2) {
-                            display_leaderboard();
-                        } else if (game_choice == 3) {
-                            break;
-                        }
+						scanf("%d", &game_choice);
+						switch (game_choice) 
+						{
+						    case 1: game_loop(); break;
+						    case 2: display_leaderboard(); break;
+						    case 3: break; 
+						    case 4: change_skin(); break;
+						    default: printf("Invalid choice.\n");
+						}
                     }
                 }
                 break;
